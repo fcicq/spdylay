@@ -310,6 +310,8 @@ int SpdyDownstreamConnection::push_request_headers()
     } else if(util::strieq((*i).first.c_str(), "host")) {
       nv[hdidx++] = ":host";
       nv[hdidx++] = (*i).second.c_str();
+    } else if(get_config()->proxy_auth_enabled && util::strieq((*i).first.c_str(), "proxy-authentication")) {
+      // Ignore
     } else {
       if(util::strieq((*i).first.c_str(), "content-length")) {
         content_length = true;
@@ -339,6 +341,10 @@ int SpdyDownstreamConnection::push_request_headers()
       (downstream_->get_request_major(), downstream_->get_request_minor());
     nv[hdidx++] = "via";
     nv[hdidx++] = via_value.c_str();
+  }
+  if(get_config()->proxy_auth_enabled) {
+    nv[hdidx++] = "Proxy-Authorization";
+    nv[hdidx++] = get_config()->proxy_auth_header;
   }
   nv[hdidx++] = 0;
   if(LOG_ENABLED(INFO)) {
