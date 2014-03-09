@@ -136,6 +136,10 @@ int HttpDownstreamConnection::push_request_headers()
        util::strieq((*i).first.c_str(), "proxy-connection")) {
       continue;
     }
+    if(get_config()->proxy_auth_enabled && util::strieq((*i).first.c_str(), "proxy-authentication")) {
+      // Ignore
+      continue;
+    }
     if(!get_config()->no_via && util::strieq((*i).first.c_str(), "via")) {
       via_value = (*i).second;
       continue;
@@ -192,6 +196,11 @@ int HttpDownstreamConnection::push_request_headers()
     }
     hdrs += http::create_via_header_value(downstream_->get_request_major(),
                                           downstream_->get_request_minor());
+    hdrs += "\r\n";
+  }
+  if(get_config()->proxy_auth_enabled) {
+    hdrs += "Proxy-Authentication: ";
+    hdrs += get_config()->proxy_auth_header;
     hdrs += "\r\n";
   }
 
