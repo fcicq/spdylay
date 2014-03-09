@@ -236,7 +236,8 @@ int SpdyDownstreamConnection::push_request_headers()
   // 12 means :method, :scheme, :path, :version and possible via and
   // x-forwarded-for header fields. We rename host header field as
   // :host.
-  const char **nv = new const char*[nheader * 2 + 12 + 1];
+  // after adding proxy-auth support, we also need to raise this limit.
+  const char **nv = new const char*[nheader * 2 + 14 + 1];
   size_t hdidx = 0;
   std::string via_value;
   std::string xff_value;
