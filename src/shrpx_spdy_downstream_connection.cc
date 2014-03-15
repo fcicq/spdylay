@@ -345,7 +345,8 @@ int SpdyDownstreamConnection::push_request_headers()
   }
   if(get_config()->proxy_auth_enabled) {
     nv[hdidx++] = "Proxy-Authorization";
-    nv[hdidx++] = get_config()->proxy_auth_header;
+    std::string proxy_auth_header = get_config()->proxy_auth_header;
+    nv[hdidx++] = proxy_auth_header.c_str();
   }
   nv[hdidx++] = 0;
   if(LOG_ENABLED(INFO)) {
