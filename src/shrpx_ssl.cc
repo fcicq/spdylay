@@ -508,6 +508,9 @@ int check_cert(SSL *ssl)
                << X509_verify_cert_error_string(verify_res);
     return -1;
   }
+  if(get_config()->cert_ignore_hostname) {
+    return 0;
+  }
   std::string common_name;
   std::vector<std::string> dns_names;
   std::vector<std::string> ip_addrs;

@@ -412,6 +412,9 @@ void fill_default_config()
   mod_config()->write_burst = 0;
   mod_config()->verify_client = false;
   mod_config()->verify_client_cacert = 0;
+  mod_config()->proxy_auth_enabled = false;
+  set_config_str(&mod_config()->proxy_auth_header, "");
+  mod_config()->cert_ignore_hostname = false;
 }
 } // namespace
 
@@ -669,6 +672,11 @@ void print_help(std::ostream& out)
       << "    --no-via           Don't append to Via header field. If Via\n"
       << "                       header field is received, it is left\n"
       << "                       unaltered.\n"
+      << "    --proxy-auth-header=<AUTH String>\n"
+      << "                       Send Proxy-Authorization header to the\n"
+      << "                       backend.\n"
+      << "    --cert-ignore-hostname\n"
+      << "                       Ignore Backend SSL cert hostname check.\n"
       << "    -D, --daemon       Run in a background. If -D is used, the\n"
       << "                       current working directory is changed to '/'.\n"
       << "    --pid-file=<PATH>  Set path to save PID of this program.\n"
@@ -745,6 +753,11 @@ int main(int argc, char **argv)
       {"verify-client-cacert", required_argument, &flag, 39},
       {"frontend-spdy-connection-window-bits", required_argument, &flag, 40},
       {"backend-spdy-connection-window-bits", required_argument, &flag, 41},
+      {"tls-proto-list", required_argument, &flag, 42},
+      {"client-private-key-file", required_argument, &flag, 43},
+      {"client-cert-file", required_argument, &flag, 44},
+      {"proxy-auth-header", required_argument, &flag, 45},
+      {"cert-ignore-hostname", no_argument, &flag, 46},
       {0, 0, 0, 0 }
     };
     int option_index = 0;
@@ -974,6 +987,28 @@ int main(int argc, char **argv)
         cmdcfgs.push_back(std::make_pair
                           (SHRPX_OPT_BACKEND_SPDY_CONNECTION_WINDOW_BITS,
                            optarg));
+        break;
+<<<<<<< HEAD
+=======
+      case 42:
+        // --tls-proto-list
+        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_TLS_PROTO_LIST, optarg));
+        break;
+      case 43:
+        // --client-private-key-file
+        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_CLIENT_PRIVATE_KEY_FILE,
+                                         optarg));
+        break;
+      case 44:
+        // --client-cert-file
+        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_CLIENT_CERT_FILE, optarg));
+        break;
+      case 45:
+        // --proxy-auth-header
+        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_PROXY_AUTH_HEADER, optarg));
+        break;
+      case 46:
+        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_CERT_IGNORE_HOSTNAME, "yes"));
         break;
       default:
         break;
