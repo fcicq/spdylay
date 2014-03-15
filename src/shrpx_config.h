@@ -100,6 +100,7 @@ extern const char SHRPX_OPT_VERIFY_CLIENT_CACERT[];
 extern const char SHRPX_OPT_CLIENT_PRIVATE_KEY_FILE[];
 extern const char SHRPX_OPT_CLIENT_CERT_FILE[];
 extern const char SHRPX_OPT_PROXY_AUTH_HEADER[];
+extern const char SHRPX_OPT_CERT_IGNORE_HOSTNAME[];
 
 union sockaddr_union {
   sockaddr sa;
@@ -206,6 +207,7 @@ struct Config {
   bool tty;
   bool proxy_auth_enabled;
   char *proxy_auth_header;
+  bool cert_ignore_hostname;
 };
 
 const Config* get_config();

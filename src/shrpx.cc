@@ -420,6 +420,7 @@ void fill_default_config()
   mod_config()->client_cert_file = 0;
   mod_config()->proxy_auth_enabled = false;
   set_config_str(&mod_config()->proxy_auth_header, "");
+  mod_config()->cert_ignore_hostname = false;
 }
 } // namespace
 
@@ -698,6 +699,8 @@ void print_help(std::ostream& out)
       << "    --proxy-auth-header=<AUTH String>\n"
       << "                       Send Proxy-Authorization header to the\n"
       << "                       backend.\n"
+      << "    --cert-ignore-hostname\n"
+      << "                       Ignore Backend SSL cert hostname check.\n"
       << "    -D, --daemon       Run in a background. If -D is used, the\n"
       << "                       current working directory is changed to '/'.\n"
       << "    --pid-file=<PATH>  Set path to save PID of this program.\n"
@@ -778,6 +781,7 @@ int main(int argc, char **argv)
       {"client-private-key-file", required_argument, &flag, 43},
       {"client-cert-file", required_argument, &flag, 44},
       {"proxy-auth-header", required_argument, &flag, 45},
+      {"cert-ignore-hostname", no_argument, &flag, 46},
       {0, 0, 0, 0 }
     };
     int option_index = 0;
@@ -1024,6 +1028,9 @@ int main(int argc, char **argv)
       case 45:
         // --proxy-auth-header
         cmdcfgs.push_back(std::make_pair(SHRPX_OPT_PROXY_AUTH_HEADER, optarg));
+        break;
+      case 46:
+        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_CERT_IGNORE_HOSTNAME, "yes"));
         break;
       default:
         break;

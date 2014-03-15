@@ -108,6 +108,7 @@ const char SHRPX_OPT_VERIFY_CLIENT_CACERT[] = "verify-client-cacert";
 const char SHRPX_OPT_CLIENT_PRIVATE_KEY_FILE[] = "client-private-key-file";
 const char SHRPX_OPT_CLIENT_CERT_FILE[] = "client-cert-file";
 const char SHRPX_OPT_PROXY_AUTH_HEADER[] = "proxy-auth-header";
+const char SHRPX_OPT_CERT_IGNORE_HOSTNAME[] = "cert-ignore-hostname";
 
 namespace {
 Config *config = 0;
@@ -476,6 +477,8 @@ int parse_config(const char *opt, const char *optarg)
     mod_config()->proxy_auth_enabled = true;
     // sanitize_header_value(optarg, 0); //?
     set_config_str(&mod_config()->proxy_auth_header, optarg); // not verified, needs quote
+  } else if(util::strieq(opt, SHRPX_OPT_CERT_IGNORE_HOSTNAME)) {
+    mod_config()->cert_ignore_hostname = util::strieq(optarg, "yes");
   } else if(util::strieq(opt, "conf")) {
     LOG(WARNING) << "conf is ignored";
   } else {
