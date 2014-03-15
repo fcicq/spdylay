@@ -242,7 +242,7 @@ int SpdyDownstreamConnection::push_request_headers()
   std::string via_value;
   std::string xff_value;
   std::string scheme, path, query;
-  char* proxy_auth_header = null;
+  char* proxy_auth_header = 0;
   if(downstream_->get_request_method() == "CONNECT") {
     // No :scheme header field for CONNECT method.
     nv[hdidx++] = ":path";
