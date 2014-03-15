@@ -475,7 +475,11 @@ int parse_config(const char *opt, const char *optarg)
     set_config_str(&mod_config()->client_cert_file, optarg);
   } else if(util::strieq(opt, SHRPX_OPT_PROXY_AUTH_HEADER)) {
     mod_config()->proxy_auth_enabled = true;
-    // sanitize_header_value(optarg, 0); //?
+    std::string authheader = optarg;
+    if (!shrpx::http::check_header_value(authheader.c_str())) {
+      LOG(ERROR) << "auth head MUST not have \\r or \\n";
+      return -1;
+    }
     set_config_str(&mod_config()->proxy_auth_header, optarg); // not verified, needs quote
   } else if(util::strieq(opt, SHRPX_OPT_CERT_IGNORE_HOSTNAME)) {
     mod_config()->cert_ignore_hostname = util::strieq(optarg, "yes");
