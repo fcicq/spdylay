@@ -234,6 +234,7 @@ int SpdyDownstreamConnection::push_request_headers()
   std::string via_value;
   std::string xff_value;
   std::string scheme, path, query;
+  const char* proxy_auth_header;
   if(downstream_->get_request_method() == "CONNECT") {
     // No :scheme header field for CONNECT method.
     nv[hdidx++] = ":path";
@@ -332,6 +333,11 @@ int SpdyDownstreamConnection::push_request_headers()
       (downstream_->get_request_major(), downstream_->get_request_minor());
     nv[hdidx++] = "via";
     nv[hdidx++] = via_value.c_str();
+  }
+  if(get_config()->proxy_auth_enabled) {
+    nv[hdidx++] = "Proxy-Authorization";
+    proxy_auth_header = strdup(mod_config()->proxy_auth_header);
+    nv[hdidx++] = proxy_auth_header;
   }
   nv[hdidx++] = 0;
   if(LOG_ENABLED(INFO)) {
