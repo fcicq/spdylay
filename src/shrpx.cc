@@ -988,8 +988,6 @@ int main(int argc, char **argv)
                           (SHRPX_OPT_BACKEND_SPDY_CONNECTION_WINDOW_BITS,
                            optarg));
         break;
-<<<<<<< HEAD
-=======
       case 42:
         // --tls-proto-list
         cmdcfgs.push_back(std::make_pair(SHRPX_OPT_TLS_PROTO_LIST, optarg));

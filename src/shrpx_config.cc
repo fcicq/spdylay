@@ -442,8 +442,6 @@ int parse_config(const char *opt, const char *optarg)
     mod_config()->verify_client = util::strieq(optarg, "yes");
   } else if(util::strieq(opt, SHRPX_OPT_VERIFY_CLIENT_CACERT)) {
     set_config_str(&mod_config()->verify_client_cacert, optarg);
-<<<<<<< HEAD
-=======
   } else if(util::strieq(opt, SHRPX_OPT_CLIENT_PRIVATE_KEY_FILE)) {
     set_config_str(&mod_config()->client_private_key_file, optarg);
   } else if(util::strieq(opt, SHRPX_OPT_CLIENT_CERT_FILE)) {
