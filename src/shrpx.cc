@@ -988,19 +988,6 @@ int main(int argc, char **argv)
                           (SHRPX_OPT_BACKEND_SPDY_CONNECTION_WINDOW_BITS,
                            optarg));
         break;
-      case 42:
-        // --tls-proto-list
-        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_TLS_PROTO_LIST, optarg));
-        break;
-      case 43:
-        // --client-private-key-file
-        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_CLIENT_PRIVATE_KEY_FILE,
-                                         optarg));
-        break;
-      case 44:
-        // --client-cert-file
-        cmdcfgs.push_back(std::make_pair(SHRPX_OPT_CLIENT_CERT_FILE, optarg));
-        break;
       case 45:
         // --proxy-auth-header
         cmdcfgs.push_back(std::make_pair(SHRPX_OPT_PROXY_AUTH_HEADER, optarg));
