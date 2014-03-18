@@ -60,6 +60,7 @@ SpdyDownstreamConnection::~SpdyDownstreamConnection()
   }
   if(request_body_buf_) {
     evbuffer_free(request_body_buf_);
+    request_body_buf_ = 0;
   }
   if(downstream_) {
     if(submit_rst_stream(downstream_) == 0) {
@@ -102,6 +103,7 @@ int SpdyDownstreamConnection::attach_downstream(Downstream *downstream)
     DCLOG(INFO, this) << "Attaching to DOWNSTREAM:" << downstream;
   }
   if(init_request_body_buf() == -1) {
+    DCLOG(INFO, this) << "downstream -1" << downstream;
     return -1;
   }
   spdy_->add_downstream_connection(this);
