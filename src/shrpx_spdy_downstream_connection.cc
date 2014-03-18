@@ -71,6 +71,7 @@ SpdyDownstreamConnection::~SpdyDownstreamConnection()
   // asynchronously.
   if(downstream_) {
     downstream_->set_downstream_connection(0);
+    downstream_ = 0;
   }
   if(LOG_ENABLED(INFO)) {
     DCLOG(INFO, this) << "Deleted";
